@@ -10,5 +10,6 @@ def index(request):
 
 def recipe(request, id):
     return render(request, 'recipe/pages/recipe-view.html', context={
-        'recipe': make_recipe()
+        'recipe': make_recipe(),
+        'detail_page': True
     })
