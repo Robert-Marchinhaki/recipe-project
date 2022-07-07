@@ -64,7 +64,11 @@
 
     {% if detail_page is True %}
         <div class="preparation_step">
-            {{ recipe.preparation_step }}
+            {% if recipe.preparation_step_is_html is True %}
+                {{ recipe.preparation_step|safe }}
+            {% else %}
+                {{ recipe.preparation_step }}
+            {% endif %}
         </div>
     {% endif %}
 
