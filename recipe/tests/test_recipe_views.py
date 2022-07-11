@@ -23,3 +23,10 @@ class RecipesViewsTest(TestCase):
     def test_recipe_view_index_loads_correct_template(self):
         response = self.client.get(reverse('recipes:home'))
         self.assertTemplateUsed(response, 'recipe/pages/index.html')
+
+    def test_recipe_view_index_no_have_recipes(self):
+        response = self.client.get(
+            reverse('recipes:home')).content.decode('utf-8')
+
+        self.assertIn('id="dont-have-recipe"', response)
+        
