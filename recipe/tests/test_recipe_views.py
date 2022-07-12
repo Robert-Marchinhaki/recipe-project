@@ -74,6 +74,16 @@ class RecipesViewsTest(RecipeBaseTest):
         # Testing if the title was rendered
         self.assertIn(needed_title, content)
 
+    def test_recipe_category_is_published_isnt_true(self):
+        # need a recipe for this test
+        recipe = self.create_recipe(is_published=False)
+
+        response = self.client.get(
+            reverse('recipes:category', kwargs={'category_id': recipe.category.id}))
+
+        # Testing if the title was rendered
+        self.assertEqual(response.status_code, 404)
+
     # detail test
     def test_recipe_detail_view_function_is_correct(self):
         view = resolve(reverse('recipes:recipe', kwargs={'id': 1}))
@@ -84,7 +94,7 @@ class RecipesViewsTest(RecipeBaseTest):
             reverse('recipes:recipe', kwargs={'id': 1000})).status_code
         self.assertEqual(response, 404)
 
-    def test_recipe_detai_template_loads_recipe(self):
+    def test_recipe_detail_template_loads_recipe(self):
         needed_title = 'This is a detail page - Test if loads one recipe'
 
         # need a recipe for this test
@@ -96,3 +106,13 @@ class RecipesViewsTest(RecipeBaseTest):
 
         # Testing if the title was rendered
         self.assertIn(needed_title, content)
+
+    def test_recipe_detail_is_published_isnt_true(self):
+        # need a recipe for this test
+        recipe = self.create_recipe(is_published=False)
+
+        response = self.client.get(
+            reverse('recipes:recipe', kwargs={'id': recipe.id}))
+
+        # Testing if the title was rendered
+        self.assertEqual(response.status_code, 404)
