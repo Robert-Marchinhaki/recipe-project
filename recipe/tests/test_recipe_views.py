@@ -25,7 +25,7 @@ class RecipesViewsTest(TestCase):
 
     def test_recipe_home_template_loads_recipe(self):
         category = Category.objects.create(name='Category')
-        user = User.objects.create_user(
+        author = User.objects.create_user(
             first_name='name',
             last_name='lastname',
             username='username',
@@ -33,6 +33,8 @@ class RecipesViewsTest(TestCase):
             email='username@email.com',
         )
         recipe = Recipe.objects.create(
+            category=category,
+            author=author,
             title='Recipe Title',
             description='Recipe description',
             slug='Slug field',
@@ -43,11 +45,23 @@ class RecipesViewsTest(TestCase):
             preparation_step='Passos para fazer a receita',
             preparation_step_is_html=False,
             is_published=True,
+            cover='https://thumbs.dreamstime.com/z/etiqueta-adesiva-do-s%C3%ADmbolo-logotipo-circular-da-linguagem-de-programa%C3%A7%C3%A3o-python-colocada-em-um-teclado-laptop-vista-cima-211691587.jpg'  # noqa: E501
         )
-        test = 1
+
+        response = self.client.get(reverse('recipes:home'))
+        created_recipes = response.context['recipes']
+        context = response.context['recipes'].first()
+        content = response.content.decode('utf-8')
+
+        # asserções
+        self.assertIn(context.author.first_name, content)
+        self.assertIn(context.author.last_name, content)
+        self.assertIn(context.title, content)
+        self.assertEqual(len(created_recipes), 1)   # uma receita
+
+        pass
 
     # category test
-
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(reverse('recipes:category', kwargs={'category_id': 1}))
         self.assertIs(view.func, views.category)
