@@ -26,18 +26,13 @@ class RecipesViewsTest(RecipeBaseTest):
             response)
 
     def test_recipe_home_template_loads_recipe(self):
+        self.create_recipe()
         response = self.client.get(reverse('recipes:home'))
-        created_recipes = response.context['recipes']
         context = response.context['recipes'].first()
         content = response.content.decode('utf-8')
 
-        # asserções
-        self.assertIn(context.author.first_name, content)
-        self.assertIn(context.author.last_name, content)
+        # Testing if the title was rendered
         self.assertIn(context.title, content)
-        self.assertEqual(len(created_recipes), 1)   # uma receita
-
-        pass
 
     # category test
     def test_recipe_category_view_function_is_correct(self):
