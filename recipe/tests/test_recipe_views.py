@@ -39,6 +39,17 @@ class RecipesViewsTest(RecipeBaseTest):
         # Testing if the title was rendered
         self.assertIn(context.title, content)
 
+    def test_recipe_home_is_published_isnt_true(self):
+        # need a recipe for this test
+        self.create_recipe(is_published=False)
+
+        response = self.client.get(reverse('recipes:home'))
+
+        # Testing if the title was rendered
+        self.assertIn(
+            '<h1>Nenhuma receita foi publicada ou aprovada.</h1>',
+            response.content.decode('utf-8'))
+
     # category test
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(reverse('recipes:category', kwargs={'category_id': 1}))
