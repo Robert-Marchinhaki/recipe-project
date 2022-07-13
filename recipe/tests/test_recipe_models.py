@@ -48,3 +48,29 @@ class ModelsRecipeTeste(RecipeBaseTest):
         recipe = self.create_recipe_for_test_defaults()
         self.assertFalse(recipe.is_published,
                          msg='is_published is not False')
+
+    def test_recipe_models_recipe_string_representation(self):
+        needed = 'Testing representation '
+        msg = f'Recipe string representation must be "{needed}" but "{str(self.recipe)}" was received.'     # noqa
+        self.recipe.title = needed
+        self.recipe.full_clean()
+        self.recipe.save()
+        self.assertEqual(str(self.recipe), needed, msg=msg)
+
+
+class ModelsCategoryTest(RecipeBaseTest):
+    def setUp(self) -> None:
+        self.category = self.create_category(
+            name='Testing category'
+        )
+        return super().setUp()
+
+    def test_recipe_models_category_string_representation(self):
+        needed = 'Testing category'
+        msg = f'Recipe string representation must be "{needed}" but "{str(self.category)}" was received.'     # noqa
+        self.assertEqual(str(self.category), needed, msg=msg)
+
+    def test_recipe_models_category_name_is_greater_than_65_chars(self):
+        self.category.name = 'a' * 66
+        with self.assertRaises(ValidationError):
+            self.category.full_clean()
