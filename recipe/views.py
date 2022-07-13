@@ -30,3 +30,7 @@ def recipe(request, id):
         'recipe': recipe,
         'detail_page': True
     })
+
+
+def search(request):
+    ...

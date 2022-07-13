@@ -116,3 +116,7 @@ class RecipesViewsTest(RecipeBaseTest):
 
         # Testing if the title was rendered
         self.assertEqual(response.status_code, 404)
+
+    def teste_recipe_search_uses_correct_function(self):
+        search = resolve(reverse('recipes:search'))
+        self.assertIs(search.func, views.search)
