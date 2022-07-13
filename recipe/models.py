@@ -18,10 +18,10 @@ class Recipe(models.Model):
     servings = models.IntegerField()
     servings_unit = models.CharField(max_length=65)
     preparation_step = models.TextField()
-    preparation_step_is_html = models.BooleanField(default=True)
+    preparation_step_is_html = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(default=True)
+    is_published = models.BooleanField(default=False)
     cover = models.ImageField(upload_to='recipe/cover/%Y/%m/%d/')
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True)
