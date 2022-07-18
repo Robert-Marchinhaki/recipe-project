@@ -34,7 +34,10 @@ def recipe(request, id):
 
 
 def search(request):
-    url = request.GET.get('q')
+    url = request.GET.get('q', '').strip()
     if not url:
         raise Http404()
-    return render(request, 'recipe/pages/search.html')
+    return render(request, 'recipe/pages/search.html', context={
+        'page_title': f'Buscado por "{url}"',
+        'search_term': url,
+    })
