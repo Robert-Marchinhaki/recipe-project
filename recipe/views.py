@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 
@@ -34,10 +35,14 @@ def recipe(request, id):
 
 
 def search(request):
-    url = request.GET.get('q', '').strip()
-    if not url:
+    search = request.GET.get('q', '').strip()
+    if not search:
         raise Http404()
+
+    recipes = Recipe.objects.filter(Q(title__icontains=search) |
+                                    Q(description__icontains=search),)
     return render(request, 'recipe/pages/search.html', context={
-        'page_title': f'Buscado por "{url}"',
-        'search_term': url,
+        'page_title': f'Buscado por "{search}"',
+        'search_term': search,
+        'recipes': recipes,
     })
