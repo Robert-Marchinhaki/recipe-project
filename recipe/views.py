@@ -1,14 +1,19 @@
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
-
+from django.core.paginator import Paginator
 from .models import Recipe
 
 
 def index(request):
     recipe = Recipe.objects.filter(is_published=True).order_by('-id')
+
+    cunrrent_page = request.GET.get('page', 1)
+    pagination = Paginator(recipe, 2)
+    pag_get_page = pagination.get_page(cunrrent_page)
+
     return render(request, 'recipe/pages/index.html', context={
-        'recipes': recipe
+        'recipes': pag_get_page
     })
 
 
