@@ -62,24 +62,33 @@ class PaginationTest(TestCase):
         self.assertEqual([17, 18, 19, 20], pagination)
 
     def test_make_pagination_is_static_when_last_page_is_next(self):
-        # current_page = 19 - qty_page = 2 - middle_page = 2
+
         pagination = make_pagination_range(
             page_range=list(range(1, 21)),
             qty_pages=4,
             current_page=19
         )['pagination']
-        self.assertEqual([17, 18, 19, 20], pagination)
-        # current_page = 20 - qty_page = 2 - middle_page = 2
+        self.assertEqual(
+            [17, 18, 19, 20],
+            pagination,
+            msg='current_page = 19 - qty_page = 4 - middle_page = 2')
+
         pagination = make_pagination_range(
             page_range=list(range(1, 21)),
             qty_pages=4,
             current_page=20
         )['pagination']
-        self.assertEqual([17, 18, 19, 20], pagination)
-        # current_page = 21 - qty_page = 2 - middle_page = 2
+        self.assertEqual(
+            [17, 18, 19, 20],
+            pagination,
+            msg='current_page = 20 - qty_page = 4 - middle_page = 2')
+
         pagination = make_pagination_range(
             page_range=list(range(1, 21)),
             qty_pages=4,
             current_page=21
         )['pagination']
-        self.assertEqual([17, 18, 19, 20], pagination)
+        self.assertEqual(
+            [17, 18, 19, 20],
+            pagination,
+            msg='current_page = 21 - qty_page = 4 - middle_page = 2')

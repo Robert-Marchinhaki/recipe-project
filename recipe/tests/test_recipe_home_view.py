@@ -32,11 +32,11 @@ class RecipesHomeViewsTest(RecipeBaseTest):
         self.create_recipe()
 
         response = self.client.get(reverse('recipes:home'))
-        context = response.context['recipes'].first()
+        context = response.context['recipes']
         content = response.content.decode('utf-8')
 
         # Testing if the title was rendered
-        self.assertIn(context.title, content)
+        self.assertIn(context.object_list[0].title, content)
 
     def test_recipe_home_is_published_isnt_true(self):
         # need a recipe for this test

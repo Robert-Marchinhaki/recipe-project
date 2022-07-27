@@ -9,13 +9,15 @@ def make_pagination_range(page_range, qty_pages, current_page):
     start_range_offset = abs(start_range) if start_range < 0 else 0
     stop_range = current_page + middle_page
     final_page = len(page_range)
-    if start_range < 0:
+    if final_page < qty_pages:
         start_range = 0
-        stop_range += start_range_offset
-    if final_page < stop_range:
-        pass  # noqa: E501 this is equal to use start_range = 0, using this to prevent bugs
-    elif stop_range >= final_page:
-        start_range = start_range - abs(final_page - stop_range)
+    else:
+        if start_range < 0:
+            start_range = 0
+            stop_range += start_range_offset
+        if stop_range >= final_page:
+            start_range = start_range - abs(final_page - stop_range)
+
     pagination = page_range[start_range:stop_range]
     return {
         'pagination': pagination,
@@ -31,11 +33,11 @@ def make_pagination_range(page_range, qty_pages, current_page):
     }
 
 
-# make_pagination_range(
-#     page_range=list(range(1, 4)),
-#     qty_pages=4,
-#     current_page=1
-# )['pagination']
+make_pagination_range(
+    page_range=list(range(1, 4)),
+    qty_pages=4,
+    current_page=1
+)['pagination']
 
 
 def make_pagination(request, queryset, per_page, qty_page=4):
