@@ -1,19 +1,31 @@
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
-from django.core.paginator import Paginator
+from utils.test_func_pagination import make_pagination_range
+
 from .models import Recipe
 
 
 def index(request):
     recipe = Recipe.objects.filter(is_published=True).order_by('-id')
 
-    cunrrent_page = request.GET.get('page', 1)
-    pagination = Paginator(recipe, 2)
-    pag_get_page = pagination.get_page(cunrrent_page)
+    try:
+        current_page = int(request.GET.get('page', 9))
+    except ValueError:
+        current_page = 1
+    pagination = Paginator(recipe, 3)
+    pag_get_page = pagination.get_page(current_page)
+
+    pagination_range = make_pagination_range(
+        pagination.page_range,
+        4,
+        current_page,
+    )
 
     return render(request, 'recipe/pages/index.html', context={
-        'recipes': pag_get_page
+        'recipes': pag_get_page,
+        'pagination_range': pagination_range
     })
 
 
