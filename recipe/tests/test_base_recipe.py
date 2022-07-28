@@ -41,3 +41,24 @@ class RecipeBaseTest(TestCase):
             is_published=is_published,
             cover=cover
         )
+
+    def create_recipes_to_test_pagination(self):
+        description1 = 'This is the first recipe'
+        description2 = 'This is the second recipe'
+        description3 = 'This is the third recipe'
+        description4 = 'This is the fourth recipe'
+
+        recipe1 = self.create_recipe(
+            description=description1, slug='one',
+            author_data={'username': 'one'}).description
+        recipe2 = self.create_recipe(
+            description=description2, slug='two',
+            author_data={'username': 'two'}).description
+        recipe3 = self.create_recipe(
+            description=description3, slug='three',
+            author_data={'username': 'three'}).description
+        recipe4 = self.create_recipe(
+            description=description4, slug='four',
+            author_data={'username': 'four'}).description
+
+        return recipe1, recipe2, recipe3, recipe4
