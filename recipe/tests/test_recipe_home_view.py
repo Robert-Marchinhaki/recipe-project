@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.urls import resolve, reverse
 from recipe import views
 
@@ -49,34 +51,38 @@ class RecipesHomeViewsTest(RecipeBaseTest):
             '<h1>Nenhuma receita foi publicada ou aprovada.</h1>',
             response.content.decode('utf-8'))
 
+    # this part of the test is for testing pagination
     def test_recipe_home_pagination_loads_right_recipe_qty_per_page(self):
         # this test require four recipes or more to work.
 
-        recipe1, recipe2, recipe3, recipe4 = self.create_recipes_to_test_pagination()  # noqa: E501
+        self.create_recipes_to_test_pagination(9)  # noqa: E501
 
         response = self.client.get(reverse('recipes:home') + '?page=1')
-        paginator = response.context['recipes'].paginator
-
-        # test qty recipe have per page
-        self.assertEqual(paginator.per_page, 3)
+        paginator = response.context['recipes']
+        paginator_obj_lst = paginator.object_list
 
         # recipe 1 is not on this page
-        self.assertIn(recipe2, response.content.decode('utf-8'))
-        self.assertIn(recipe3, response.content.decode('utf-8'))
-        self.assertIn(recipe4, response.content.decode('utf-8'))
+        self.assertIn(paginator_obj_lst[1].title,
+                      response.content.decode('utf-8'))
+        self.assertIn(paginator_obj_lst[2].title,
+                      response.content.decode('utf-8'))
+        self.assertIn(paginator_obj_lst[3].title,
+                      response.content.decode('utf-8'))
 
+    @patch('recipe.views.PER_PAGE', new=3)
     def test_recipe_home_pagination_have_right_qty_the_num_pages(self):
-        self.create_recipes_to_test_pagination()
+        self.create_recipes_to_test_pagination(9)
         response = self.client.get(reverse('recipes:home'))
         paginator = response.context['recipes'].paginator
 
-        # test qty page exists
-        self.assertEqual(paginator.num_pages, 2)
+        self.assertEqual(paginator.num_pages, 3)
 
     def test_recipe_home_pagination_has_other_pages(self):
-        self.create_recipes_to_test_pagination()
-        response = self.client.get(reverse('recipes:home'))
-        context = response.context['recipes']
+        self.create_recipes_to_test_pagination(8)
 
-        # test qty page exists
-        self.assertEqual(context.has_other_pages(), True)
+        with patch('recipe.views.PER_PAGE', new=3):
+            response = self.client.get(reverse('recipes:home'))
+            context = response.context['recipes']
+
+            # test qty page exists
+            self.assertEqual(context.has_other_pages(), True)
