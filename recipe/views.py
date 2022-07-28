@@ -7,7 +7,7 @@ from utils.test_func_pagination import make_pagination
 
 from .models import Recipe
 
-PER_PAGE = os.environ.get('PER_PAGE', 3)
+PER_PAGE = int(os.environ.get('PER_PAGE', 3))
 
 
 def index(request):
