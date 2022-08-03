@@ -1,6 +1,5 @@
 import os
 
-from django.contrib import messages
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
@@ -14,7 +13,6 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 3))
 def index(request):
     recipe = Recipe.objects.filter(is_published=True).order_by('-id')
 
-    messages.success(request, 'Example of success message')
     pag_get_page, pagination_range = make_pagination(request, recipe, PER_PAGE)
     return render(request, 'recipe/pages/index.html', context={
         'recipes': pag_get_page,
