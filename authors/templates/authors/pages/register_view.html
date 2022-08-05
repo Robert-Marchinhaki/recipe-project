@@ -7,8 +7,8 @@
     <h2>Register</h2>
   </div>
   <div class="main-content center container">
-    <form action="" method="POST">
-      {% comment %} {% csrf_token %} {% endcomment %}
+    <form action="{% url 'authors:create' %}" method="POST">
+      {% csrf_token %}
       <div class="form-content form-content-grid">
         {% for field in form %}
           <div class="form-group">
