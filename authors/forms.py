@@ -1,8 +1,13 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+
+def add_attr(field, attr_name, attr_new_val):
+    existing = field.widget.attrs.get(attr_name, '')
+    field.widget.attrs[attr_name] = f'{existing} {attr_new_val}'.strip()
 
 def add_placeholder(field, placeholder_val):
-    field.widget.attrs['placeholder'] = placeholder_val
+    add_attr(field, 'placeholder', placeholder_val)
 
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -74,3 +79,22 @@ class RegisterForm(forms.ModelForm):
                 'placeholder': 'Type your password here'
             }),
         }
+    # data.lower() == data
+    def clean_password(self):
+        data = self.cleaned_data.get('password')
+        
+        if len(data) < 8:
+            raise ValidationError(
+                'Sua senha é muito pequena',
+                code='invalid',
+                params={'value': 'comum'}
+            )
+            
+        if data.lower() == data:
+            raise ValidationError(
+                'Sua senha deve conter pelo menos um caracter maisculo',
+                code='invalid',
+                params={'value': 'comum'}
+            )
+
+        return data
