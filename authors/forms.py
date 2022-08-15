@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 def add_attr(field, attr_name, attr_new_val):
-    existing = field.widget.attrs.get(attr_name, '')
-    field.widget.attrs[attr_name] = f'{existing} {attr_new_val}'.strip()
+    field.widget.attrs[attr_name] = f'{attr_new_val}'.strip()
 
 def add_placeholder(field, placeholder_val):
+    field.widget.attrs['placeholder'] = placeholder_val
     add_attr(field, 'placeholder', placeholder_val)
 
 class RegisterForm(forms.ModelForm):
@@ -25,7 +25,7 @@ class RegisterForm(forms.ModelForm):
         error_messages={
             'required': 'This field is required'
         },
-        help_text='The length of your password must be greater than 8 and must contain an uppercase letter, a lowercase letter and a numbers'
+        help_text='The length of your password must be greater than 8 and must contain an uppercase letter, a lowercase letter and a numbers.'
     )
 
     password2 = forms.CharField(
@@ -85,16 +85,39 @@ class RegisterForm(forms.ModelForm):
         
         if len(data) < 8:
             raise ValidationError(
-                'Sua senha é muito pequena',
+                'Your password is too short.',
                 code='invalid',
                 params={'value': 'comum'}
             )
-            
+
         if data.lower() == data:
             raise ValidationError(
-                'Sua senha deve conter pelo menos um caracter maisculo',
+                'Your password does not contain an uppercase letter.',
                 code='invalid',
                 params={'value': 'comum'}
             )
 
         return data
+    
+    def clean(self):
+        all_data = super().clean()
+
+        password = all_data.get('password')
+        password2 = all_data.get('password2')
+        pw_validation_error = ValidationError(
+                'passwords do not match.',
+                code='invalid',
+                )
+        if password != password2:
+            raise ValidationError({
+                'password': [
+                    'Password and password2 must be equal.',
+                    pw_validation_error,
+                    ],
+                'password2': [
+                    'Password and password2 must be equal.',
+                    pw_validation_error,
+                    ],
+                })
+
+        return all_data
