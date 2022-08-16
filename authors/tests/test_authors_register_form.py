@@ -2,6 +2,7 @@ from authors.forms import RegisterForm
 from django.test import TestCase
 from parameterized import parameterized
 
+
 class AuthorRegisterFormUnitTest(TestCase):
     @parameterized.expand([
         ('first_name', 'Ex.: Michael'),
@@ -15,4 +16,12 @@ class AuthorRegisterFormUnitTest(TestCase):
         form = RegisterForm()
         placeholder = form[field].field.widget.attrs['placeholder']
         self.assertEqual(placeholder_val, placeholder)
-        pass
+
+    @parameterized.expand([
+        ('password', 'The length of your password must be greater than 8 and must contain an uppercase letter, a lowercase letter and a numbers.'),
+        ('email', 'Please enter a valid email.')
+    ])
+    def test_if_help_text_is_rendered(self, field, help_text_val):
+        form = RegisterForm()
+        help_text = form[field].help_text
+        self.assertEqual(help_text_val, help_text)
