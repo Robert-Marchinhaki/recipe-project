@@ -55,7 +55,7 @@ class RecipesHomeViewsTest(RecipeBaseTest):
     def test_recipe_home_pagination_loads_right_recipe_qty_per_page(self):
         # this test require four recipes or more to work.
 
-        self.create_recipes_to_test_pagination(9)  # noqa: E501
+        self.create_recipes_to_test_pagination(4)  # noqa: E501
 
         response = self.client.get(reverse('recipes:home') + '?page=1')
         paginator = response.context['recipes']
@@ -71,14 +71,14 @@ class RecipesHomeViewsTest(RecipeBaseTest):
 
     @patch('recipe.views.PER_PAGE', new=3)
     def test_recipe_home_pagination_have_right_qty_the_num_pages(self):
-        self.create_recipes_to_test_pagination(9)
+        self.create_recipes_to_test_pagination(7)
         response = self.client.get(reverse('recipes:home'))
         paginator = response.context['recipes'].paginator
 
         self.assertEqual(paginator.num_pages, 3)
 
     def test_recipe_home_pagination_has_other_pages(self):
-        self.create_recipes_to_test_pagination(8)
+        self.create_recipes_to_test_pagination(4)
 
         with patch('recipe.views.PER_PAGE', new=3):
             response = self.client.get(reverse('recipes:home'))
