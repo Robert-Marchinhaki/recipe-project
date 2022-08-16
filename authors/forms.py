@@ -1,4 +1,3 @@
-from cgitb import strong
 import re
 
 from django import forms
@@ -43,12 +42,12 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['last_name'], 'Ex.: bown')
         add_placeholder(self.fields['username'], 'Ex.: michael_bown')
         add_placeholder(self.fields['email'], 'Your e-mail')
+        add_placeholder(self.fields['password'], 'Type your password')
+        add_placeholder(self.fields['password2'], 'Repeat your password')
 
     password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput({
-            'placeholder': 'Enter a password'
-        }),
+        widget=forms.PasswordInput(),
         error_messages={
             'required': 'This field is required'
         },
@@ -58,9 +57,7 @@ class RegisterForm(forms.ModelForm):
 
     password2 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput({
-            'placeholder': 'Repeat your password'
-        }),
+        widget=forms.PasswordInput(),
         error_messages={
             'required': 'This field is required'
         },
@@ -90,23 +87,6 @@ class RegisterForm(forms.ModelForm):
             'username': {
                 'required': 'This field is required',
             }
-        }
-        widgets = {
-            'first_name': forms.TextInput(attrs={
-                'placeholder': 'Type your first name here'
-            }),
-            'last_name': forms.TextInput(attrs={
-                'placeholder': 'Type your last name here'
-            }),
-            'username': forms.TextInput(attrs={
-                'placeholder': 'Type your username here'
-            }),
-            'email': forms.TextInput(attrs={
-                'placeholder': 'Type your email here'
-            }),
-            'password': forms.PasswordInput(attrs={
-                'placeholder': 'Type your password here'
-            }),
         }
 
     def clean_password(self):
