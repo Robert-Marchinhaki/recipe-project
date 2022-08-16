@@ -89,25 +89,6 @@ class RegisterForm(forms.ModelForm):
             }
         }
 
-    def clean_password(self):
-        data = self.cleaned_data.get('password')
-
-        if len(data) < 8:
-            raise ValidationError(
-                'Your password is too short.',
-                code='invalid',
-                params={'value': 'comum'}
-            )
-
-        if data.lower() == data:
-            raise ValidationError(
-                'Your password does not contain an uppercase letter.',
-                code='invalid',
-                params={'value': 'comum'}
-            )
-
-        return data
-
     def clean(self):
         all_data = super().clean()
 
