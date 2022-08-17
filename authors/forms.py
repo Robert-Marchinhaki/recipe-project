@@ -82,7 +82,11 @@ class RegisterForm(forms.ModelForm):
         error_messages={
             'required': 'Password is required'
         },
-        help_text='The length of your password must be greater than 8 and must contain an uppercase letter, a lowercase letter and a numbers.',
+        help_text=(
+            'Password must have at least one uppercase letter, '
+            'one lowercase letter and one number. The length should be '
+            'at least 8 characters.'
+        ),
         validators=[strong_password]
     )
 
@@ -116,11 +120,11 @@ class RegisterForm(forms.ModelForm):
         if password != password2:
             raise ValidationError({
                 'password': [
-                    'Password and password2 must be equal.',
+                    'Password and password2 must be equal',
                     pw_validation_error,
                 ],
                 'password2': [
-                    'Password and password2 must be equal.',
+                    'Password and password2 must be equal',
                     pw_validation_error,
                 ],
             })
