@@ -1,4 +1,4 @@
-{% include 'recipe/partials/head.html' %}
+{% include 'global/partials/head.html' %}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -7,15 +7,15 @@
 </head>
 
 <body>
-    {% include 'recipe/partials/header.html' %}
-    {% include 'recipe/partials/search.html' %}
+    {% include 'global/partials/header.html' %}
+    {% include 'global/partials/search.html' %}
 
     <main class="main-content-container">
         {% block content %}{% endblock content %}
-        {% include 'recipe/partials/pagination.html' %}
+        {% include 'global/partials/pagination.html' %}
     </main>
 
-    {% include 'recipe/partials/footer.html' %}
+    {% include 'global/partials/footer.html' %}
 </body>
 
 </html>
