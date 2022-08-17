@@ -53,10 +53,10 @@ class RegisterForm(forms.ModelForm):
         ),
         error_messages={
             'required': 'This field must not be empty',
-            'min_length': 'Username must have at least 4 characters',
+            'min_length': 'Username must have at least 3 characters',
             'max_length': 'Username must have less than 150 characters',
         },
-        min_length=4, max_length=150,
+        min_length=3, max_length=150,
     )
     first_name = forms.CharField(
         label='First name',
