@@ -1,8 +1,10 @@
-from authors.forms import RegisterForm
 from unittest import TestCase
+
+from authors.forms import RegisterForm
 from django.test import TestCase as DjangoTestCase
-from parameterized import parameterized
 from django.urls import reverse
+from parameterized import parameterized
+
 
 class AuthorRegisterFormUnitTest(TestCase):
     @parameterized.expand([
@@ -20,7 +22,7 @@ class AuthorRegisterFormUnitTest(TestCase):
 
     @parameterized.expand([
         ('password', 'The length of your password must be greater than 8 and must contain an uppercase letter, a lowercase letter and a numbers.'),
-        ('email', 'Please enter a valid email.')
+        ('email', 'Please enter a valid email')
     ])
     def test_if_help_text_is_rendered(self, field, help_text_val):
         form = RegisterForm()
@@ -40,6 +42,7 @@ class AuthorRegisterFormUnitTest(TestCase):
         placeholder = form[field].label
         self.assertEqual(placeholder_val, placeholder)
 
+
 class AuthorRegisterFormIntegrationTest(DjangoTestCase):
     def setUp(self, *args, **kwargs):
         self.form_data = {
@@ -53,10 +56,19 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         return super().setUp(*args, **kwargs)
 
     @parameterized.expand([
-        ('username', 'This field must not be empty')
+        ('first_name', 'Write your first name'),
+        ('last_name', 'Write your last name'),
+        ('username', 'This field must not be empty'),
+        ('email', 'E-mail is required'),
+        ('password', 'Password is required'),
+        ('password2', 'Please, repeat your password'),
     ])
     def test_fields_cannot_be_empty(self, field, msg):
         self.form_data[field] = ''
         url = reverse('authors:create')
         response = self.client.post(url, data=self.form_data, follow=True)
+        error_message = response.context['form'].fields.get(
+            field).error_messages['required']
+
         self.assertIn(msg, response.content.decode('utf-8'))
+        self.assertIn(msg, error_message)
