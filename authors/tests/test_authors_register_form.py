@@ -77,13 +77,13 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         self.assertIn(msg, error_message)
 
     def test_username_field_min_length_should_be_3(self):
-        self.form_data['username'] = 'Ana'
+        self.form_data['username'] = 'An'
         url = reverse('authors:register_create')
         response = self.client.post(url, data=self.form_data, follow=True)
         error_message = response.context['form'].fields.get(
             'username').error_messages['min_length']
         msg = 'Username must have at least 3 characters'
-        # self.assertIn(msg, response.content.decode('utf-8'))
+        self.assertIn(msg, response.content.decode('utf-8'))
         self.assertIn(msg, error_message)
 
     def test_username_field_max_length_should_be_150(self):
@@ -110,6 +110,7 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         self.assertIn(msg, response.context['form'].errors.get('password'))
         self.assertIn(msg, response.content.decode('utf-8'))
 
+        # The test below verify if the msg doesn't appear if the password is strong
         self.form_data['password'] = '@A123abc123'
         url = reverse('authors:register_create')
         response = self.client.post(url, data=self.form_data, follow=True)
@@ -128,6 +129,7 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         self.assertIn(msg, response.context['form'].errors.get('password'))
         self.assertIn(msg, response.content.decode('utf-8'))
 
+        # The test below verify if msg doesn't appear if the password are equal
         self.form_data['password'] = '@A123abc123'
         self.form_data['password2'] = '@A123abc123'
 
