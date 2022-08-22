@@ -387,6 +387,19 @@ a {
   opacity: 1;
 }
 
+.inline-form {
+  display: inline;
+}
+
+.cleaned-button {
+  display: inline;
+  color: var(--color-primary);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+}
+
 /* Flash message */
 
 .messages-container {
@@ -455,7 +468,7 @@ a {
   display: grid;
 }
 
-.center a {
+.center btn-return {
   margin: 0 auto;
   background: var(--color-primary-dark-hover);
   color: var(--color-white);
@@ -466,7 +479,7 @@ a {
   width: fit-content;
 }
 
-.center a:hover {
+.center btn-return:hover {
   background: var(--color-primary-dark);
 }
 
