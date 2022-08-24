@@ -2,7 +2,7 @@ from django.test import TestCase
 from recipe.models import Category, Recipe, User
 
 
-class RecipeBaseTest(TestCase):
+class RecipeMixin:
     def create_category(self, name='category'):
         return Category.objects.create(name=name)
 
@@ -63,3 +63,7 @@ class RecipeBaseTest(TestCase):
         self.recipe.full_clean()
         self.recipe.save()
         return recipe
+
+
+class RecipeBaseTest(TestCase, RecipeMixin):
+    pass
