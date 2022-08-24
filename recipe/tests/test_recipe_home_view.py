@@ -62,7 +62,7 @@ class RecipesHomeViewsTest(RecipeBaseTest):
     def test_recipe_home_pagination_loads_right_recipe_qty_per_page(self):
         # this test require four recipes or more to work.
 
-        self.create_recipes_to_test_pagination(4)  # noqa: E501
+        self.create_n_recipes(4)  # noqa: E501
 
         response = self.client.get(reverse('recipes:home') + '?page=1')
         paginator = response.context['recipes']
@@ -77,9 +77,9 @@ class RecipesHomeViewsTest(RecipeBaseTest):
                       response.content.decode('utf-8'))
 
     @pytest.mark.slow
-    @patch('recipe.views.PER_PAGE', new=3)
+    @patch('recipe.views.PER_PAGE', new=1)
     def test_recipe_home_pagination_have_right_qty_the_num_pages(self):
-        self.create_recipes_to_test_pagination(7)
+        self.create_n_recipes(3)
         response = self.client.get(reverse('recipes:home'))
         paginator = response.context['recipes'].paginator
 
@@ -87,11 +87,10 @@ class RecipesHomeViewsTest(RecipeBaseTest):
 
     @pytest.mark.slow
     def test_recipe_home_pagination_has_other_pages(self):
-        self.create_recipes_to_test_pagination(4)
+        self.create_n_recipes(2)
 
-        with patch('recipe.views.PER_PAGE', new=3):
+        with patch('recipe.views.PER_PAGE', new=1):
             response = self.client.get(reverse('recipes:home'))
             context = response.context['recipes']
 
-            # test qty page exists
             self.assertEqual(context.has_other_pages(), True)

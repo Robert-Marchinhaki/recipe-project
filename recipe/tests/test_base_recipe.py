@@ -39,7 +39,7 @@ class RecipeMixin:
             cover=cover
         )
 
-    def create_recipes_to_test_pagination(self, qty_recipes):
+    def create_n_recipes(self, qty_recipes):
         for i in range(qty_recipes):
             kwargs = {'slug': f'r{i}', 'author_data': {'username': f'u{i}'}}
             recipes = self.create_recipe(**kwargs)
