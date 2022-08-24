@@ -1,11 +1,13 @@
 from unittest.mock import patch
 
+import pytest
 from django.urls import resolve, reverse
 from recipe import views
 
 from .test_base_recipe import RecipeBaseTest
 
 
+@pytest.mark.slow
 class RecipesHomeViewsTest(RecipeBaseTest):
     def test_recipe_home_view_function_is_correct(self):
         view = resolve(reverse('recipes:home'))
