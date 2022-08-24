@@ -1,32 +1,15 @@
 from django.core.exceptions import ValidationError
 from parameterized import parameterized
+import pytest
+from .test_base_recipe import RecipeBaseTest
 
-from .test_base_recipe import Recipe, RecipeBaseTest
 
-
+@pytest.mark.slow
+@pytest.mark.recipe_test
 class ModelsRecipeTeste(RecipeBaseTest):
     def setUp(self) -> None:
         self.recipe = self.create_recipe()
         return super().setUp()
-
-    def create_recipe_for_test_defaults(self):
-        cover = 'https://thumbs.dreamstime.com/z/etiqueta-adesiva-do-s%C3%ADmbolo-logotipo-circular-da-linguagem-de-programa%C3%A7%C3%A3o-python-colocada-em-um-teclado-laptop-vista-cima-211691587.jpg'  # noqa: E501
-        recipe = Recipe(
-            category=self.create_category(name='Category for test default'),
-            author=self.create_author(username='newuser'),
-            title='Recipe title',
-            description='Recipe description',
-            slug='slug-test',
-            preparation_time=1,
-            preparation_time_unit='Minutos',
-            servings=1,
-            servings_unit='pessoas',
-            preparation_step='Passos para preparar a receita',
-            cover=cover
-        )
-        self.recipe.full_clean()
-        self.recipe.save()
-        return recipe
 
     @parameterized.expand([
         ('title', 65),

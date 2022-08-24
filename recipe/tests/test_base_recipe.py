@@ -3,9 +3,6 @@ from recipe.models import Category, Recipe, User
 
 
 class RecipeBaseTest(TestCase):
-    def setUp(self) -> None:
-        return super().setUp()
-
     def create_category(self, name='category'):
         return Category.objects.create(name=name)
 
@@ -47,3 +44,22 @@ class RecipeBaseTest(TestCase):
             kwargs = {'slug': f'r{i}', 'author_data': {'username': f'u{i}'}}
             recipes = self.create_recipe(**kwargs)
         return recipes
+
+    def create_recipe_for_test_defaults(self):
+        cover = 'https://thumbs.dreamstime.com/z/etiqueta-adesiva-do-s%C3%ADmbolo-logotipo-circular-da-linguagem-de-programa%C3%A7%C3%A3o-python-colocada-em-um-teclado-laptop-vista-cima-211691587.jpg'  # noqa: E501
+        recipe = Recipe(
+            category=self.create_category(name='Category for test default'),
+            author=self.create_author(username='newuser'),
+            title='Recipe title',
+            description='Recipe description',
+            slug='slug-test',
+            preparation_time=1,
+            preparation_time_unit='Minutos',
+            servings=1,
+            servings_unit='pessoas',
+            preparation_step='Passos para preparar a receita',
+            cover=cover
+        )
+        self.recipe.full_clean()
+        self.recipe.save()
+        return recipe

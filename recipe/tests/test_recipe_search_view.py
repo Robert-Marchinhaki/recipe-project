@@ -1,9 +1,12 @@
+import pytest
 from django.urls import resolve, reverse
 from recipe import views
 
 from .test_base_recipe import RecipeBaseTest
 
 
+@pytest.mark.fast
+@pytest.mark.recipe_test
 class RecipesSearchViewsTest(RecipeBaseTest):
     def teste_recipe_search_uses_correct_function(self):
         search = resolve(reverse('recipes:search'))

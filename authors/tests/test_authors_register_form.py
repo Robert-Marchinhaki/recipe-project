@@ -1,11 +1,12 @@
 from unittest import TestCase
-
+import pytest
 from authors.forms import RegisterForm
 from django.test import TestCase as DjangoTestCase
 from django.urls import reverse
 from parameterized import parameterized
 
 
+@pytest.mark.authors_test
 class AuthorRegisterFormUnitTest(TestCase):
     @parameterized.expand([
         ('first_name', 'Ex.: Michael'),

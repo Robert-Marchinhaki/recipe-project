@@ -1,8 +1,11 @@
+import pytest
 from django.core.exceptions import ValidationError
 
 from .test_base_recipe import RecipeBaseTest
 
 
+@pytest.mark.fast
+@pytest.mark.recipe_test
 class ModelsCategoryTest(RecipeBaseTest):
     def setUp(self) -> None:
         self.category = self.create_category(

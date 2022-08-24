@@ -1,9 +1,12 @@
+import pytest
 from django.urls import resolve, reverse
 from recipe import views
 
 from .test_base_recipe import RecipeBaseTest
 
 
+@pytest.mark.fast
+@pytest.mark.recipe_test
 class RecipesDetailViewsTest(RecipeBaseTest):
     def test_recipe_detail_view_function_is_correct(self):
         view = resolve(reverse('recipes:recipe', kwargs={'id': 1}))
