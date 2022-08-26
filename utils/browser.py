@@ -26,7 +26,7 @@ def make_chrome_browser(*options):
 
 if __name__ == '__main__':
     print(bool(int(os.environ.get('SELENIUM_HEADLESS', 0))))
-    browser = make_chrome_browser('--headless')
+    browser = make_chrome_browser()
     browser.get('https://www.youtube.com.br/')
     sleep(3)
     browser.quit()
