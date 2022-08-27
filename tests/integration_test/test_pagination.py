@@ -1,6 +1,6 @@
 from unittest import TestCase
 import pytest
-from utils.test_func_pagination import make_pagination_range
+from utils.pagination import make_pagination_range
 
 
 @pytest.mark.fast

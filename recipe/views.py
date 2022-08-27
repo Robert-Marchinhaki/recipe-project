@@ -3,7 +3,7 @@ import os
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
-from utils.test_func_pagination import make_pagination
+from utils.pagination import make_pagination
 
 from .models import Recipe
 

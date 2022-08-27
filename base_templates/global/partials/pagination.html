@@ -8,9 +8,11 @@
             href="?page=1{{ additional_query_url }}">
             1
           </a>
+
           {% if pagination_range.first_page_active_span %}
             <span class="page-item">...</span>
           {% endif %}
+
         {% endif %}
         {% for page in pagination_range.pagination %}
           {% if pagination_range.current_page == page %}
@@ -30,8 +32,12 @@
             </a>
           {% endif %}
         {% endfor %}
+
         {% if pagination_range.last_page_out_of_range %}
-          <span class="page-item">...</span>
+          {% if pagination_range.last_page_active_span %}
+            <span class="page-item">...</span>
+          {% endif %}
+
           <a 
           class="page-link page-item"
           aria-label="Go to page {{ pagination_range.total_pages }}"
