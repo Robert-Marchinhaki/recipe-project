@@ -1,5 +1,6 @@
 from django.test import TestCase
 from recipe.models import Category, Recipe, User
+from selenium.webdriver.common.by import By
 
 
 class RecipeMixin:
@@ -42,8 +43,8 @@ class RecipeMixin:
     def create_n_recipes(self, qty_recipes=5):
         for i in range(qty_recipes):
             kwargs = {
-                'title': f'This is a title {i}', 
-                'slug': f'r{i}', 
+                'title': f'This is a title {i}',
+                'slug': f'r{i}',
                 'author_data': {'username': f'u{i}'}}
             recipes = self.create_recipe(**kwargs)
         return recipes
@@ -66,6 +67,23 @@ class RecipeMixin:
         self.recipe.full_clean()
         self.recipe.save()
         return recipe
+
+    def get_by_placeholder(self, web_element, placeholder_val):
+        return web_element.find_element(
+            By.XPATH,
+            f'//input[@placeholder="{placeholder_val}"]'
+        )
+
+    def get_by_xpath(self, xpath_val):
+        return self.browser.find_element(
+            By.XPATH,
+            f'{xpath_val}'
+        )
+
+    def fill_form_dummy_data(self, fields):
+        for field in fields:
+            if field.is_displayed():
+                field.send_keys(' '*20)
 
 
 class RecipeBaseTest(TestCase, RecipeMixin):
