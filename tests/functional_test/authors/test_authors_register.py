@@ -34,3 +34,20 @@ class AuthorsRegisterFunctionalTest(UtilsBaseFunctionalTest):
 
         form = self.get_by_xpath("/html/body/main/div[2]/form")
         self.assertIn(value, form.text)
+
+    def test_if_user_can_create_account_successfully(self):
+        self.browser.get(self.live_server_url + '/authors/register/')
+
+        form = self.get_by_xpath("/html/body/main/div[2]/form")
+        fields = form.find_elements(By.TAG_NAME, 'input')
+
+        self.fill_form_dummy_data(fields, first_name='michael', last_name='bown', username='michael_bown')
+
+        form.find_element(By.TAG_NAME, 'button').click()
+
+        form = self.get_by_xpath("/html/body")
+
+        self.assertIn(
+            'Your account has been sucefully created, please log in.',
+            form.text
+        )
