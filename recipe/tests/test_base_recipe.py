@@ -80,10 +80,16 @@ class RecipeMixin:
             f'{xpath_val}'
         )
 
-    def fill_form_dummy_data(self, fields):
+    def fill_form_dummy_data(self, fields, chars_qty_repetiton=1, first_name='A', last_name='A', username='A', email='dummy@email.com', password='$tr0ngP@ssw0rd123', password2='$tr0ngP@ssw0rd123'):
         for field in fields:
             if field.is_displayed():
-                field.send_keys(' '*20)
+                match field.accessible_name.lower():
+                    case 'first name': field.send_keys(first_name*chars_qty_repetiton)
+                    case 'last name': field.send_keys(last_name*chars_qty_repetiton)
+                    case 'username': field.send_keys(username*chars_qty_repetiton)
+                    case 'e-mail': field.send_keys(email)
+                    case 'password': field.send_keys(password)
+                    case 'password2': field.send_keys(password2)
 
 
 class RecipeBaseTest(TestCase, RecipeMixin):
