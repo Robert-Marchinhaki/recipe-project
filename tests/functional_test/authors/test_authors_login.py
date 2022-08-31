@@ -13,5 +13,15 @@ class TestAutorsLogin(UtilsBaseFunctionalTest):
         form.find_element(By.TAG_NAME, 'button').click()
 
         form = self.get_by_xpath("/html/body")
-        sleep(5)
         self.assertIn('Invalid or password', form.text)
+    
+    def test_if_user_receive_error_if_have_invalid_credentials(self):
+        self.browser.get(self.live_server_url + '/authors/login/')
+        form = self.get_by_xpath("/html/body/main/div[2]/form")
+
+        form.find_element(By.NAME, 'username').send_keys('Robert')
+        form.find_element(By.NAME, 'password').send_keys('$tr0ngP@ssw0rd123')
+
+        form.find_element(By.TAG_NAME, 'button').click()
+        form = self.get_by_xpath("/html/body")
+        self.assertIn('Invalid credentials', form.text)
