@@ -46,24 +46,20 @@ class RegisterForm(forms.ModelForm):
             'required': 'E-mail is required',
         },
         help_text='Please enter a valid email'
+        
     )
     password = forms.CharField(
         widget=forms.PasswordInput(),
         error_messages={
             'required': 'Password is required'
         },
-        help_text=(
-            'Password must have at least one uppercase letter, '
-            'one lowercase letter and one number. The length should be '
-            'at least 8 characters.'
-        ),
         validators=[strong_password]
     )
 
     password2 = forms.CharField(
         widget=forms.PasswordInput(),
         error_messages={
-            'required': 'Please, repeat your password'
+            'required': 'Password2 is required'
         },
         validators=[strong_password]
     )
@@ -94,19 +90,13 @@ class RegisterForm(forms.ModelForm):
 
         password = all_data.get('password')
         password2 = all_data.get('password2')
-        pw_validation_error = ValidationError(
-            'passwords do not match.',
-            code='invalid',
-        )
         if password != password2:
             raise ValidationError({
                 'password': [
                     'Password and password2 must be equal',
-                    pw_validation_error,
                 ],
                 'password2': [
                     'Password and password2 must be equal',
-                    pw_validation_error,
                 ],
             })
 
