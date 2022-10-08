@@ -51,4 +51,14 @@ class TestAuthorsLogin(UtilsBaseFunctionalTest):
         self.assertIn(
             f'You are logged in with {user.username}.',
             form.text
-            )
+        )
+
+    def test_login_create_raise_404_case_request_is_not_POST(self):
+        self.browser.get(
+            self.live_server_url + reverse('authors:login_create')
+        )
+
+        self.assertIn(
+            'not found',
+            self.browser.find_element(By.TAG_NAME, 'body').text
+        )
