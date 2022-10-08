@@ -1,6 +1,7 @@
 from django import forms
 from utils.form_utility import add_placeholder
 
+
 class LoginForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

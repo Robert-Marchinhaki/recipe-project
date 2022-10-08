@@ -3,12 +3,11 @@ from unittest.mock import patch
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-
 from utils.functional.base import UtilsBaseFunctionalTest
+
 
 @pytest.mark.functional_test
 class RecipeHomePageFunctionalTest(UtilsBaseFunctionalTest):
-
     def test_if_error_message_is_displayed_if_there_are_no_recipes(self):
         self.browser.get(self.live_server_url)
         body = self.browser.find_element(By.TAG_NAME, 'body')
@@ -20,7 +19,8 @@ class RecipeHomePageFunctionalTest(UtilsBaseFunctionalTest):
         self.browser.get(self.live_server_url)
 
         # second: User see the search input saying "Search recipes here"
-        search_input = self.get_by_xpath('//input[@placeholder="Search recipes here"]')
+        search_input = self.get_by_xpath(
+            '//input[@placeholder="Search recipes here"]')
 
         # third: User click in the input, write the title of recipe
         # to search the recipe that has this title and press enter key.
@@ -46,4 +46,5 @@ class RecipeHomePageFunctionalTest(UtilsBaseFunctionalTest):
         pagination.click()
 
         # user can see others recipes
-        self.assertEqual(2, len(self.browser.find_elements(By.CLASS_NAME, 'recipe')))
+        self.assertEqual(
+            2, len(self.browser.find_elements(By.CLASS_NAME, 'recipe')))

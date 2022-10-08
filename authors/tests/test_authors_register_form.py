@@ -1,4 +1,5 @@
 from unittest import TestCase
+
 import pytest
 from authors.forms import RegisterForm
 from django.test import TestCase as DjangoTestCase
@@ -100,12 +101,12 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         response = self.client.post(url, data=self.form_data, follow=True)
 
         msg = (
-            'Password must have at least one uppercase letter, '
-            'one lowercase letter and one number. The length should be '
-            'at least 8 characters.'
+            "Password must have at least one uppercase letter, one "
+            "lowercase letter, one number and one special character."
+            " The length should be at least 8 characters."
         )
 
-        self.assertIn(msg, response.context['form'].errors.get('password'))
+        self.assertIn(msg, response.context['form'].errors.get('password')[0])
         self.assertIn(msg, response.content.decode('utf-8'))
 
         # The test below verify if the msg doesn't appear if the password is strong

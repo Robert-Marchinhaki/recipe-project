@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from utils.form_utility import strong_password, add_placeholder
-
+from utils.form_utility import add_placeholder, strong_password
 
 
 class RegisterForm(forms.ModelForm):
@@ -46,7 +45,7 @@ class RegisterForm(forms.ModelForm):
             'required': 'E-mail is required',
         },
         help_text='Please enter a valid email'
-        
+
     )
     password = forms.CharField(
         widget=forms.PasswordInput(),

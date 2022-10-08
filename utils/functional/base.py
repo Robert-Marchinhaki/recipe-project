@@ -1,6 +1,6 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from utils.browser import make_chrome_browser
 from recipe.tests.test_base_recipe import RecipeMixin
+from utils.browser import make_chrome_browser
 
 
 class UtilsBaseFunctionalTest(StaticLiveServerTestCase, RecipeMixin):
