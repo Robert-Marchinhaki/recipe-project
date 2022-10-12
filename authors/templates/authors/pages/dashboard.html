@@ -26,7 +26,12 @@
       </ul>
     </div>
   </div>
-  
+
+  <div class="authors-dashboard-container">
+    <h3>Create recipe</h3>
+
+    <a href="{% url 'authors:dashboard_recipe_create' %}">Create</a>
+  </div>
   {% include 'global/partials/messages.html' %}
 
   

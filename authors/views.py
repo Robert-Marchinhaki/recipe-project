@@ -5,7 +5,7 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from recipe.models import Recipe
-
+from utils.clear_str import cleaning_str
 from .forms import LoginForm, RegisterForm
 from .forms.recipe_form import AuthorRecipeForm
 
@@ -129,6 +129,37 @@ def dashboard_recipe_edit(request, id):
 
         messages.success(request, "You edited your recipe with success!")
         return redirect(reverse("authors:dashboard_recipe_edit", args=(id,)))
+
+    return render(
+        request,
+        'authors/pages/dashboard_recipe.html',
+        context={
+            'form': form
+        },
+    )
+
+
+@login_required(login_url='authors:login', redirect_field_name='next')
+def dashboard_recipe_create(request):
+    recipe = Recipe
+
+    form = AuthorRecipeForm(
+        data=request.POST or None,
+        files=request.FILES or None,
+    )
+
+    if form.is_valid():
+        recipe = form.save(commit=False)    # Fake save
+
+        recipe.author = request.user
+        recipe.slug = cleaning_str(recipe.title)
+        recipe.preparation_step_is_html = False
+        recipe.is_published = False
+
+        form.save()
+
+        messages.success(request, "You create your recipe with success!")
+        return redirect(reverse("authors:dashboard"))
 
     return render(
         request,
