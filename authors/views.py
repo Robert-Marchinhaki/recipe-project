@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from recipe.models import Recipe
 from utils.clear_str import cleaning_str
+
 from .forms import LoginForm, RegisterForm
 from .forms.recipe_form import AuthorRecipeForm
 
@@ -159,7 +160,12 @@ def dashboard_recipe_create(request):
         form.save()
 
         messages.success(request, "You create your recipe with success!")
-        return redirect(reverse("authors:dashboard"))
+        return redirect(
+            reverse(
+                "authors:dashboard_recipe_edit",
+                args=(recipe.id,)
+            )
+        )
 
     return render(
         request,
