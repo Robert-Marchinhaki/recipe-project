@@ -1,5 +1,7 @@
-from django.core.exceptions import ValidationError
 import re
+
+from django.core.exceptions import ValidationError
+
 
 def add_attr(field, attr_name, attr_new_val):
     field.widget.attrs[attr_name] = f'{attr_new_val}'.strip()
