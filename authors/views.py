@@ -7,7 +7,6 @@ from django.urls import reverse
 from recipe.models import Recipe
 
 from .forms import LoginForm, RegisterForm
-
 from .forms.recipe_form import AuthorRecipeForm
 
 
