@@ -452,6 +452,12 @@ a {
   color: var(--color-debug-dark);
 }
 
+/* authenticated */
+
+.authenticated {
+  margin: calc(var(--spacing-gutter-medium) / 2) 0;
+}
+
 /* Generic classes */
 
 .wid {
