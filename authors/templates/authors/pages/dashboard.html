@@ -7,6 +7,22 @@
     <h2>Dashboard  ({{ user }})</h2>
 
     {% include 'global/partials/authenticated.html' %}
+
+    <div class="authors-dashboard-container">
+      <h3>Your recipes</h3>
+
+      <ul>
+        {% for recipe in recipes %}
+          <li>
+            <a class="list-of-recipes" href="#">{{ recipe.title }}</a>
+          </li>
+        {% empty %}
+          <li>
+            <p>You don't have recipes or your recipes have been approved</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
   
   {% include 'global/partials/messages.html' %}
