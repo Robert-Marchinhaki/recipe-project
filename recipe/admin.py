@@ -21,18 +21,43 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = [
+        'id',
         'title',
+        'created_at',
         'is_published',
+    ]
+    list_display_links = [
+        'title',
         'created_at',
     ]
     list_filter = [
+        'author',
+        'category',
         'created_at',
+        'is_published',
         'preparation_step_is_html',
+    ]
+    search_fields = [
+        'id',
+        'title',
+        'slug',
+        'description',
     ]
     actions = [
         published_on,
         published_off,
     ]
-
+    list_per_page = 10
+    list_editable = [
+        'is_published',
+    ]
+    ordering = [
+        '-id',
+    ]
+    prepopulated_fields = {
+        "slug": [
+            "title",
+        ],
+    }
 
 # admin.site.register(RecipeAdmin)
