@@ -9,6 +9,21 @@ from django.views import View
 from recipe.models import Recipe
 
 
+class DashboardUser(View):
+    def get(self, request):
+        recipes = Recipe.objects.filter(
+            is_published=False,
+            author=request.user
+        )
+        return render(
+            self.request,
+            'authors/pages/dashboard.html',
+            context={
+                'recipes': recipes,
+            },
+        )
+
+
 @method_decorator(
     login_required(login_url='authors:login', redirect_field_name='next'),
     name='dispatch'
@@ -69,21 +84,6 @@ class DashboardRecipe(View):
             ))
 
         return self.render_recipe(form)
-
-
-@login_required(login_url='authors:login', redirect_field_name='next')
-def dashboard(request):
-    recipes = Recipe.objects.filter(
-        is_published=False,
-        author=request.user
-    )
-    return render(
-        request,
-        'authors/pages/dashboard.html',
-        context={
-            'recipes': recipes,
-        },
-    )
 
 
 @method_decorator(
