@@ -4,11 +4,15 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 from recipe.models import Recipe
-from utils.clear_str import cleaning_str
 
 
+@method_decorator(
+    login_required(login_url='authors:login', redirect_field_name='next'),
+    name='dispatch'
+)
 class DashboardRecipe(View):
     def get_recipe(self, id=None):
         recipe = None
@@ -80,6 +84,7 @@ def dashboard(request):
             'recipes': recipes,
         },
     )
+
 
 @login_required(login_url='authors:login', redirect_field_name='next')
 def dashboard_recipe_delete(request):
