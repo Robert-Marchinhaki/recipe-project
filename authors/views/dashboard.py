@@ -10,7 +10,7 @@ from utils.clear_str import cleaning_str
 
 
 class DashboardRecipe(View):
-    def get_recipe(self, id):
+    def get_recipe(self, id=None):
         recipe = None
 
         if id:
@@ -34,12 +34,12 @@ class DashboardRecipe(View):
             },
         )
 
-    def get(self, request, id):
+    def get(self, request, id=None):
         recipe = self.get_recipe(id)
         form = AuthorRecipeForm(instance=recipe)
         return self.render_recipe(form)
 
-    def post(self, request, id):
+    def post(self, request, id=None):
         recipe = self.get_recipe(id)
 
         form = AuthorRecipeForm(
@@ -58,8 +58,11 @@ class DashboardRecipe(View):
 
             form.save()
 
-            messages.success(request, "You edited your recipe with success!")
-            return redirect(reverse("authors:dashboard_recipe_edit", args=(id,)))
+            messages.success(request, "Recipe saved successfully.!")
+            return redirect(reverse(
+                "authors:dashboard_recipe_edit",
+                args=(recipe.id,)
+            ))
 
         return self.render_recipe(form)
 
@@ -77,43 +80,6 @@ def dashboard(request):
             'recipes': recipes,
         },
     )
-
-
-@login_required(login_url='authors:login', redirect_field_name='next')
-def dashboard_recipe_create(request):
-    recipe = Recipe
-
-    form = AuthorRecipeForm(
-        data=request.POST or None,
-        files=request.FILES or None,
-    )
-
-    if form.is_valid():
-        recipe = form.save(commit=False)    # Fake save
-
-        recipe.author = request.user
-        recipe.slug = cleaning_str(recipe.title)
-        recipe.preparation_step_is_html = False
-        recipe.is_published = False
-
-        form.save()
-
-        messages.success(request, "You create your recipe with success!")
-        return redirect(
-            reverse(
-                "authors:dashboard_recipe_edit",
-                args=(recipe.id,)
-            )
-        )
-
-    return render(
-        request,
-        'authors/pages/dashboard_recipe.html',
-        context={
-            'form': form
-        },
-    )
-
 
 @login_required(login_url='authors:login', redirect_field_name='next')
 def dashboard_recipe_delete(request):
