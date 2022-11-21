@@ -6,7 +6,7 @@ from utils.functional.base import UtilsBaseFunctionalTest
 
 class TestAuthorsLogin(UtilsBaseFunctionalTest):
     def test_if_user_receive_error_if_the_field_is_empty(self):
-        self.browser.get(self.live_server_url + '/authors/login/')
+        self.browser.get(self.live_server_url + reverse('authors:login'))
         form = self.get_by_xpath("/html/body/main/div[2]/form")
         fields = form.find_elements(By.TAG_NAME, 'input')
 
@@ -18,7 +18,7 @@ class TestAuthorsLogin(UtilsBaseFunctionalTest):
                       form.text.replace("\n", ' '))
 
     def test_if_user_receive_error_if_have_invalid_credentials(self):
-        self.browser.get(self.live_server_url + '/authors/login/')
+        self.browser.get(self.live_server_url + reverse('authors:login'))
         form = self.get_by_xpath("/html/body/main/div[2]/form")
 
         form.find_element(By.NAME, 'username').send_keys('Robert')

@@ -1,4 +1,5 @@
 from random import randint
+
 from faker import Faker
 
 
@@ -8,6 +9,7 @@ def rand_ratio():
 
 
 fake = Faker('pt_BR')
+url_img = 'https://loremflickr.com/%s/%s/food,cook' % rand_ratio()
 
 
 def make_recipe():
@@ -29,12 +31,12 @@ def make_recipe():
             'name': fake.word()
         },
         'cover': {
-            'url': 'https://loremflickr.com/%s/%s/food,cook' % rand_ratio(),
+            'url': url_img,
         },
     }
 
 
 if __name__ == '__main__':
-    from pprint import pprint   
+    from pprint import pprint
 
     pprint(make_recipe())

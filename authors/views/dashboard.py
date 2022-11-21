@@ -9,6 +9,10 @@ from django.views import View
 from recipe.models import Recipe
 
 
+@method_decorator(
+    login_required(login_url='authors:login', redirect_field_name='next'),
+    name='dispatch'
+)
 class DashboardUser(View):
     def get(self, request):
         recipes = Recipe.objects.filter(

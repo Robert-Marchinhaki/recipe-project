@@ -5,19 +5,19 @@ from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 from utils.pagination import make_pagination
 
-from .models import Recipe
+from recipe.models import Recipe
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 3))
 
 
-def index(request):
-    recipe = Recipe.objects.filter(is_published=True).order_by('-id')
+# def index(request):
+#     recipe = Recipe.objects.filter(is_published=True).order_by('-id')
 
-    pag_get_page, pagination_range = make_pagination(request, recipe, PER_PAGE)
-    return render(request, 'recipe/pages/index.html', context={
-        'recipes': pag_get_page,
-        'pagination_range': pagination_range
-    })
+#     pag_get_page, pagination_range = make_pagination(request, recipe, PER_PAGE)
+#     return render(request, 'recipe/pages/index.html', context={
+#         'recipes': pag_get_page,
+#         'pagination_range': pagination_range
+#     })
 
 
 def category(request, category_id):
