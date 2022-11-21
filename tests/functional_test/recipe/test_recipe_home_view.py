@@ -34,7 +34,7 @@ class RecipeHomePageFunctionalTest(UtilsBaseFunctionalTest):
             self.browser.find_element(By.CLASS_NAME, 'recipe').text
         )
 
-    @patch('recipe.views.PER_PAGE', new=2)
+    @patch('recipe.views.recipe_list_view_base.PER_PAGE', new=2)
     def test_if_recipe_pagination_is_working(self):
         self.create_n_recipes()
 

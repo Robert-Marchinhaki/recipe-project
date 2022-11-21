@@ -12,7 +12,7 @@ class RecipesHomeViewsTest(RecipeBaseTest):
     @pytest.mark.fast
     def test_recipe_home_view_function_is_correct(self):
         view = resolve(reverse('recipes:home'))
-        self.assertIs(view.func, views.index)
+        self.assertIs(view.func.view_class, views.RecipeListViewHome)
 
     @pytest.mark.fast
     def test_recipe_home_view_status_code_is_200(self):
@@ -77,7 +77,7 @@ class RecipesHomeViewsTest(RecipeBaseTest):
                       response.content.decode('utf-8'))
 
     @pytest.mark.slow
-    @patch('recipe.views.PER_PAGE', new=1)
+    @patch('recipe.views.recipe_list_view_base.PER_PAGE', new=1)
     def test_recipe_home_pagination_have_right_qty_the_num_pages(self):
         self.create_n_recipes(3)
         response = self.client.get(reverse('recipes:home'))
@@ -89,7 +89,7 @@ class RecipesHomeViewsTest(RecipeBaseTest):
     def test_recipe_home_pagination_has_other_pages(self):
         self.create_n_recipes(2)
 
-        with patch('recipe.views.PER_PAGE', new=1):
+        with patch('recipe.views.recipe_list_view_base.PER_PAGE', new=1):
             response = self.client.get(reverse('recipes:home'))
             context = response.context['recipes']
 

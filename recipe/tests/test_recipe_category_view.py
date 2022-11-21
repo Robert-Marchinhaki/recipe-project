@@ -10,7 +10,7 @@ from .test_base_recipe import RecipeBaseTest
 class RecipesCategoryViewsTest(RecipeBaseTest):
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(reverse('recipes:category', kwargs={'category_id': 1}))
-        self.assertIs(view.func, views.category)
+        self.assertIs(view.func.view_class, views.RecipeListViewCategory)
 
     def test_recipe_category_view_return_404_if_no_recipe_found(self):
         response = self.client.get(
@@ -36,8 +36,8 @@ class RecipesCategoryViewsTest(RecipeBaseTest):
         recipe = self.create_recipe(is_published=False)
 
         response = self.client.get(
-            reverse('recipes:category',
-                    kwargs={'category_id': recipe.category.id}))
+            reverse('recipes:recipe',
+                    kwargs={'id': recipe.category.id}))
 
         # Testing if the title was rendered
         self.assertEqual(response.status_code, 404)
