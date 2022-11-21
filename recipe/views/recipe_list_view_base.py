@@ -33,3 +33,23 @@ class RecipeListViewBase(ListView):
             'pagination_range': pagination_range,
         })
         return ctx
+
+
+class RecipeListViewHome(RecipeListViewBase):
+    template_name = 'recipe/pages/index.html'
+
+
+class RecipeListViewCategory(RecipeListViewBase):
+    template_name = 'recipe/pages/category.html'
+
+    def get_queryset(self, category_id=None, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        qs = qs.filter(
+            category_id=self.kwargs.get('category_id'),
+            )
+
+        return qs
+
+
+class RecipeListViewSearch(RecipeListViewBase):
+    template_name = 'recipe/pages/search.html'
