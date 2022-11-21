@@ -1,5 +1,7 @@
 import os
 
+from django.db.models import Q
+from django.http import Http404
 from django.views.generic import ListView
 from recipe.models import Recipe
 from utils.pagination import make_pagination
@@ -46,10 +48,35 @@ class RecipeListViewCategory(RecipeListViewBase):
         qs = super().get_queryset(*args, **kwargs)
         qs = qs.filter(
             category_id=self.kwargs.get('category_id'),
-            )
+        )
 
         return qs
 
 
 class RecipeListViewSearch(RecipeListViewBase):
     template_name = 'recipe/pages/search.html'
+
+    def get_queryset(self, *args, **kwargs):
+        search = self.request.GET.get('q', '').strip()
+        qs = super().get_queryset(*args, **kwargs)
+
+        if self.kwargs.get('search'):
+            raise Http404()
+        qs = qs.filter(
+            Q(
+                Q(title__icontains=search) |
+                Q(description__icontains=search)
+            ),
+            is_published=True,
+        )
+        return qs
+
+    def get_context_data(self, *args, **kwargs):
+        search = self.request.GET.get('q', '').strip()
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx.update({
+            'page_title': f'Buscado por "{search}"',
+            'search_term': search,
+            'additional_query_url': f'&q={search}'
+        })
+        return ctx
