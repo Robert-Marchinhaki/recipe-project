@@ -37,7 +37,7 @@ class RecipesCategoryViewsTest(RecipeBaseTest):
 
         response = self.client.get(
             reverse('recipes:recipe',
-                    kwargs={'id': recipe.category.id}))
+                    kwargs={'pk': recipe.category.id}))
 
         # Testing if the title was rendered
         self.assertEqual(response.status_code, 404)

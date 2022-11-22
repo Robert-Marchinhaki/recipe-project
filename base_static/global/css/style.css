@@ -274,7 +274,7 @@ h6 {
   box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.preparation-step {
+.preparation_step {
   padding: var(--spacing-gutter-medium);
 }
 
@@ -297,19 +297,19 @@ h6 {
   filter: brightness(0.8);
 }
 
-.preparation-step h1,
-.preparation-step h2,
-.preparation-step h3,
-.preparation-step h4,
-.preparation-step h5,
-.preparation-step h6,
-.preparation-step p,
-.preparation-step pre {
+.preparation_step h1,
+.preparation_step h2,
+.preparation_step h3,
+.preparation_step h4,
+.preparation_step h5,
+.preparation_step h6,
+.preparation_step p,
+.preparation_step pre {
   margin: 2rem 0;
 }
 
-.preparation-step ol,
-.preparation-step ul {
+.preparation_step ol,
+.preparation_step ul {
   margin: 2rem;
   padding: 0 2rem;
 }
