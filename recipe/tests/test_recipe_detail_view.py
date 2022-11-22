@@ -9,12 +9,12 @@ from .test_base_recipe import RecipeBaseTest
 @pytest.mark.recipe_test
 class RecipesDetailViewsTest(RecipeBaseTest):
     def test_recipe_detail_view_function_is_correct(self):
-        view = resolve(reverse('recipes:recipe', kwargs={'id': 1}))
-        self.assertIs(view.func, views.recipe)
+        view = resolve(reverse('recipes:recipe', kwargs={'pk': 1}))
+        self.assertIs(view.func.view_class, views.RecipeDetailView)
 
     def test_recipe_detail_view_return_404_if_no_recipe_found(self):
         response = self.client.get(
-            reverse('recipes:recipe', kwargs={'id': 1000})).status_code
+            reverse('recipes:recipe', kwargs={'pk': 1000})).status_code
         self.assertEqual(response, 404)
 
     def test_recipe_detail_template_loads_recipe(self):
@@ -23,7 +23,7 @@ class RecipesDetailViewsTest(RecipeBaseTest):
         # need a recipe for this test
         self.create_recipe(title=needed_title)
         response = self.client.get(
-            reverse('recipes:recipe', kwargs={'id': 1}))
+            reverse('recipes:recipe', kwargs={'pk': 1}))
 
         content = response.content.decode('utf-8')
 
@@ -35,7 +35,7 @@ class RecipesDetailViewsTest(RecipeBaseTest):
         recipe = self.create_recipe(is_published=False)
 
         response = self.client.get(
-            reverse('recipes:recipe', kwargs={'id': recipe.id}))
+            reverse('recipes:recipe', kwargs={'pk': recipe.id}))
 
         # Testing if the title was rendered
         self.assertEqual(response.status_code, 404)
