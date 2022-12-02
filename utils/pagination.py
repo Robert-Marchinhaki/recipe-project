@@ -1,5 +1,5 @@
 import math
-from django.urls import reverse
+
 from django.core.paginator import Paginator
 
 
@@ -34,6 +34,7 @@ def make_pagination_range(page_range, qty_pages, current_page):
         'last_page_active_span': stop_range < final_page - 1 and small_range,
     }
 
+
 def make_pagination(request, queryset, per_page, qty_page=3):
     try:
         current_page = int(request.GET.get('page', 1))
@@ -49,11 +50,12 @@ def make_pagination(request, queryset, per_page, qty_page=3):
     )
     return pag_get_page, pagination_range
 
+
 if __name__ == '__main__':
     print('Code here')
     pagination = make_pagination_range(
-            page_range=list(range(1, 4)),
-            qty_pages=3,
-            current_page=0
-        )
+        page_range=list(range(1, 4)),
+        qty_pages=3,
+        current_page=0
+    )
     pass
