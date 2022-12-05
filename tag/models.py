@@ -8,7 +8,7 @@ from django.utils.text import slugify
 
 
 class Tag(models.Model):
-    nome = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
 
     # Here start the fields to generic relation
@@ -17,7 +17,7 @@ class Tag(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
 
     # It is id representation the model above
-    object_id = models.CharField()
+    object_id = models.CharField(max_length=255)
 
     # It is a field representation that know above fields
     # (content_type, object_id)
@@ -27,7 +27,7 @@ class Tag(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             rand_letters = ''.join(
-                SystemRandom().choice(
+                SystemRandom().choices(
                     string.ascii_letters + string.digits,
                     k=5
                 )

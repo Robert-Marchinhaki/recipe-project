@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericStackedInline
+from tag.models import Tag
 
 from .models import Category, Recipe
 
@@ -16,6 +18,12 @@ def published_off(modeladmin, request, queryset):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     pass
+
+
+class TagInline(GenericStackedInline):
+    model = Tag
+    fields = 'name',
+    extra = 1
 
 
 @admin.register(Recipe)
@@ -59,5 +67,8 @@ class RecipeAdmin(admin.ModelAdmin):
             "title",
         ],
     }
+    inlines = [
+        TagInline,
+    ]
 
 # admin.site.register(RecipeAdmin)
