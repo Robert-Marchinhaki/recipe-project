@@ -1,0 +1,20 @@
+import os
+
+
+def get_env_variable(variable_name, default_value=''):
+    from dotenv import load_dotenv
+    load_dotenv()
+    return os.environ.get(variable_name, default_value)
+
+
+def parse_comma_sep_str_to_list(comma_sep_str):
+    if not comma_sep_str or not isinstance(comma_sep_str, str):
+        return []
+    return [string.strip() for string in comma_sep_str.split(',') if string]
+
+
+if __name__ == '__main__':
+    assert parse_comma_sep_str_to_list(get_env_variable('ALLOWED_HOSTS')) == ['127.0.0.1', 'localhost']  # noqa
+    assert parse_comma_sep_str_to_list('a, b, c') == ['a', 'b', 'c']
+    assert parse_comma_sep_str_to_list(123) == []
+    assert parse_comma_sep_str_to_list('') == []

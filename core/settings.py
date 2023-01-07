@@ -16,6 +16,8 @@ from pathlib import Path
 from django.contrib.messages import constants
 from dotenv import load_dotenv
 
+from utils.environ import get_env_variable, parse_comma_sep_str_to_list
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,7 +33,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'INSECURE')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
-ALLOWED_HOSTS: list[str] = ['*']
+ALLOWED_HOSTS: list[str] = parse_comma_sep_str_to_list(
+    get_env_variable('ALLOWED_HOSTS'))
+CSRF_TRUSTED_ORIGINS: list[str] = parse_comma_sep_str_to_list(
+    get_env_variable('CSRF_TRUSTED_ORIGINS'))
 
 
 # Application definition
