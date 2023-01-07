@@ -129,7 +129,7 @@ class RecipeListViewSearch(RecipeListViewBase):
 
 
 class RecipeListViewTag(RecipeListViewBase):
-    template_name = 'recipes/pages/tag.html'
+    template_name = 'recipe/pages/tag.html'
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
