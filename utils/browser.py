@@ -14,6 +14,7 @@ load_dotenv()
 
 def make_chrome_browser(*options):
     chrome_options = Options()
+    chrome_options.add_argument('--no-sandbox')
 
     if options is not None:
         for option in options:
