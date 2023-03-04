@@ -336,6 +336,76 @@ h6 {
   background: var(--color-primary-dark);
 }
 
+/* Menu */
+
+.menu-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 260px;
+  min-height: 100vh;
+  overflow-y: auto;
+  background: var(--color-primary);
+  z-index: 2;
+  transition: all 300ms ease-in-out;
+}
+
+.menu-hidden {
+  left: -255px;
+}
+
+.menu-container a {
+  color: var(--color-white);
+}
+
+.btn-close-menu {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--color-white);
+  background: none;
+  border: none;
+  font-size: 2rem;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.btn-show-menu {
+  position: fixed;
+  left: 265px;
+  top: 2rem;
+  color: var(--color-white);
+  background: var(--color-primary);
+  font-size: 2rem;
+  border: none;
+  z-index: 3;
+  padding: 1rem;
+  visibility: hidden;
+  opacity: 0;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+}
+
+.btn-show-menu-visible {
+  visibility: visible;
+  opacity: 1;
+  left: 5px;
+}
+
+.menu-nav {
+  font-family: var(--font-headings);
+  font-size: 2rem;
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.menu-nav a {
+  width: 100%;
+  padding: 1rem;
+}
+
 /* Forms */
 .form-content {
   max-width: 64rem;
@@ -498,6 +568,10 @@ h6 {
 .m-y {
   margin: var(--spacing-gutter-medium) 0;
 
+}
+
+.hidden-text {
+  display: none;
 }
 
 .m-x {
