@@ -3,3 +3,4 @@
 from .dashboard import *
 from .login import *
 from .register import *
+from .profile import *
