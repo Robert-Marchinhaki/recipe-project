@@ -2,11 +2,8 @@
       <div class="authenticated">
         You are logged in with {{ request.user.username }}.
         <a href="{% url 'authors:dashboard' %}">See your recipes</a> or
-        <form class="inline-form" action="{% url 'authors:logout' %}" method="POST">
-          {% csrf_token %}
-          <input type="hidden" name="username" value="{{ request.user.username }}">
-          <button class="cleaned-button">click here</button>
-        </form> 
+        {% include 'global/partials/form-logout.html' %} 
+        <a class='form-logout-link' href="#">click here</a>
         to logout.
       </div>
 {% endif %}

@@ -44,3 +44,18 @@ my_scope();
         btnShowMenu.addEventListener('click', showMenu);
     };
 })();
+
+(() => {
+    const formLogoutLinks = document.querySelectorAll('.form-logout-link');
+    const formLogout = document.querySelector('.form-logout');
+
+    console.log(formLogoutLinks);
+    console.log(formLogout);
+    
+    for (const link of formLogoutLinks) {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            formLogout.submit();
+        });
+    }
+})();
